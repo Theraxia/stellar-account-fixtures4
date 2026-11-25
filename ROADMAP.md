@@ -1,6 +1,6 @@
 # ROADMAP: Stellar account fixtures
 
-Last updated: 2026-11-25 09:51 UTC
+Last updated: 2026-11-25 09:53 UTC
 
 A corpus of public Stellar account reads, their provenance, and the validator that keeps
 the provenance honest. Nothing here is a claim about whether an account is well
@@ -233,6 +233,7 @@ python3 scripts/roadmap_progress.py --check ROADMAP.md
 - [x] **2.50** Add a plain testnet baseline account with no trustlines in `fixtures/testnet-plain`. M. Deps: 0.5. Done when: fresh testnet account with no trustlines or non-default flags is created and funded via Friendbot, captured via `tools/capture.py`, sidecar and `account.json` are committed, and `validate.py --report` confirms single_signer and thresholds_zero. **Issue:** #60. (done 2026-11-24 06:57: generated and captured fresh single-signer testnet baseline into `fixtures/testnet-plain`.)
 - [x] **2.51** Tabulate capture ledger ages and audit corpus freshness in `corpus/ledger-ages.md`. S. Deps: 0.4. Done when: `corpus/ledger-ages.md` tabulates capture ledgers across all fixtures against reference root heads, documents historical lag of sponsored-trustlines, cites `validate.py:279` and `SCHEMA.md:60`, with zero em dashes and verified by tests. **Issue:** #61. (done 2026-11-24 06:57: added `corpus/ledger-ages.md`, linked in `README.md`, and added `tests/test_corpus_ledger_ages.py`.)
 - [x] **2.52** Pin validator exit codes 0, 1, and 2 in `tests/test_validate_exit_codes.py`. S. Deps: 1.3. Done when: `tests/test_validate_exit_codes.py` uses standard unittest to assert exit 0 on clean validation, 1 on unknown sidecar keys, and 2 on unreadable corpus directory, with zero em dashes. **Issue:** #62. (done 2026-11-24 06:57: added `tests/test_validate_exit_codes.py` testing validator CLI exit codes 0, 1, and 2.)
+- [x] **2.53** Pin the branch of `validate()` that the CLI's own guard hides: a temporary root with no `fixtures/` returns one structured problem ending in `fixtures: no readable fixtures directory`. S. Deps: 2.35. Done when: `tests/test_validate_missing_fixtures.py` drives that root and asserts the single problem. **Issue:** #67. (done 2026-11-25: the problem names `fixtures/` once instead of escaping as a traceback, verified by the new test.)
 
 ### Phase 3: Consumer contract
 
@@ -295,3 +296,4 @@ python3 scripts/roadmap_progress.py --check ROADMAP.md
 | 2026-11-24 07:18 | Task 2.3 (closing #13): record decision D-06 that no_balances cannot be captured on live networks due to Stellar protocol native lumen reserve requirements; verified by tests/test_validate_no_balances_decision.py. | 2.3 |
 | 2026-11-24 07:12 | Gate G3 (closing #5): verify every sidecar key with a test that fails on contradiction, tabulate key-to-test mapping in tests/test_gate_g3_sidecar_keys.py. | G3 |
 | 2026-11-24 07:05 | Task 0.6 (closing #7): decide whether scenario prose keeps its numbers; refuse numeric counts in scenario prose across validate.py and tools/capture.py, sweep all nine fixture sidecars to plain words, and enforce via tests/test_schema_scenario_counts.py. | 0.6 |
+| 2026-11-25 09:28 | Task 2.53 (closing #67) pins the branch of `validate()` that the CLI's own guard hides: a temporary root with no `fixtures/` returns one structured problem ending in `fixtures: no fixtures directory`, report mode returns an empty report, no exception escapes, and a file occupying that name is refused the same way. `validate.py`, its messages and its exit codes were not touched. README metrics and badge data were regenerated for the three added cases. Verified locally: `python3 validate.py`, both unittest suites, `ruff check .`, `ruff format --check .`, `mypy`, `roadmap_progress.py --check` and `sync_readme.py --check` all exit 0. | 2.43 |
