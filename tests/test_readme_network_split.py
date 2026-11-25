@@ -20,7 +20,7 @@ README_PATH = REPO_ROOT / "README.md"
 class ReadmeNetworkSplitTest(unittest.TestCase):
     def test_count_networks_on_real_corpus(self) -> None:
         mainnet, testnet = count_networks()
-        self.assertEqual(mainnet, 11)
+        self.assertEqual(mainnet, 12)
         self.assertEqual(testnet, 3)
 
     def test_generate_metrics_table_interpolates_split(self) -> None:

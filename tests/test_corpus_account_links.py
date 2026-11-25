@@ -70,7 +70,14 @@ class CorpusAccountLinksTest(unittest.TestCase):
         self.assertNotIn(EM_DASH, self.content)
 
     def test_capture_count_in_the_text_matches_the_corpus(self) -> None:
-        words = {10: "ten", 11: "eleven", 12: "twelve", 13: "thirteen", 14: "fourteen"}
+        words = {
+            10: "ten",
+            11: "eleven",
+            12: "twelve",
+            13: "thirteen",
+            14: "fourteen",
+            15: "fifteen",
+        }
         captured = len(fixture_ids())
         self.assertIn(f"All {words[captured]} captures carry", self.content)
         self.assertIn(f"all {words[captured]} captured files", self.content)

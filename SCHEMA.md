@@ -164,7 +164,7 @@ consumer can pick fixtures by what they contain without re-implementing Horizon 
 | `not_sponsored` | `num_sponsored` is 0 |
 | `sponsoring` | `num_sponsoring` is greater than 0 |
 | `not_sponsoring` | `num_sponsoring` is 0 |
-| `no_balances` | `balances` is an empty list |
+| `no_balances` | `balances` is an empty list; Horizon always returns at least the native entry, so only a synthetic fixture can carry it |
 | `many_balances` | `balances` has 10 or more entries |
 
 Two reading notes:

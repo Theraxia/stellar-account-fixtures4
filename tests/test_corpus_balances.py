@@ -22,7 +22,7 @@ import validate  # noqa: E402
 DOC_PATH = REPO_ROOT / "corpus" / "balances.md"
 FIXTURES_DIR = REPO_ROOT / "fixtures"
 EM_DASH = chr(0x2014)
-ASSET_TYPES = {"native", "credit_alphanum4", "credit_alphanum12"}
+ASSET_TYPES = {"native", "credit_alphanum4", "credit_alphanum12", "liquidity_pool_shares"}
 ROW = re.compile(r"^\| `([a-z0-9-]+)` \|")
 
 
@@ -119,9 +119,16 @@ class CorpusBalancesTest(unittest.TestCase):
             for key in ("asset_code", "asset_issuer", "limit"):
                 self.assertNotIn(key, natives[0], f"{fixture_id}: native entry has {key}")
             for b in balances:
-                if b["asset_type"] != "native":
-                    for key in ("asset_code", "asset_issuer", "limit"):
-                        self.assertIn(key, b, fixture_id)
+                kind = b["asset_type"]
+                if kind == "native":
+                    continue
+                if kind == "liquidity_pool_shares":
+                    # A pool share names its pool and carries a limit, but no code or issuer.
+                    self.assertIn("liquidity_pool_id", b, fixture_id)
+                    self.assertIn("limit", b, fixture_id)
+                    continue
+                for key in ("asset_code", "asset_issuer", "limit"):
+                    self.assertIn(key, b, fixture_id)
 
     def test_boundary_documents_the_rule_the_validator_applies(self) -> None:
         self.assertIn("many_balances", self.content)

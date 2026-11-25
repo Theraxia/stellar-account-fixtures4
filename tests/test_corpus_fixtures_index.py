@@ -47,7 +47,14 @@ class FixturesIndexTest(unittest.TestCase):
         self.assertEqual(listed, on_disk)
 
     def test_fixture_count_in_the_text_matches_the_corpus(self) -> None:
-        words = {10: "ten", 11: "eleven", 12: "twelve", 13: "thirteen", 14: "fourteen"}
+        words = {
+            10: "ten",
+            11: "eleven",
+            12: "twelve",
+            13: "thirteen",
+            14: "fourteen",
+            15: "fifteen",
+        }
         count = len([p for p in FIXTURES_DIR.iterdir() if p.is_dir()])
         self.assertIn(f"## 1. The {words[count]} fixtures", self.content)
         self.assertIn(f"map of the {words[count]} fixtures", self.content)

@@ -1,6 +1,6 @@
 # Balance counts and asset types
 
-> Balance counts, asset types and trustline boundaries across the twelve fixtures, counted from each `account.json` `balances` array.
+> Balance counts, asset types and trustline boundaries across the fifteen fixtures, counted from each `account.json` `balances` array.
 
 ## 1. Total balances versus trustlines
 
@@ -10,11 +10,11 @@
 trustlines (non-native entries) = total balances - native balances
 ```
 
-Every capture in this corpus has exactly one native entry, so an account with N balances holds N-1 trustlines. The native entry is the last element of `balances` in all twelve files. A consumer should not rely on that position, because the schema does not promise it, and should select the native entry by `asset_type`.
+Every capture in this corpus has exactly one native entry, so an account with N balances holds N-1 trustlines. The native entry is the last element of `balances` in all fifteen files. A consumer should not rely on that position, because the schema does not promise it, and should select the native entry by `asset_type`.
 
 The validator counts total balances, not trustlines. The `many_balances` label below uses the array length, which includes the native entry.
 
-## 2. The twelve fixtures
+## 2. The fifteen fixtures
 
 | Fixture | Network | Total balances | Native | `credit_alphanum4` | `credit_alphanum12` | Trustlines | Distinct issuers | `many_balances` |
 |---|---|---|---|---|---|---|---|---|
@@ -23,6 +23,7 @@ The validator counts total balances, not trustlines. The `many_balances` label b
 | `default-plain` | public | 5 | 1 | 3 | 1 | 4 | 4 | no |
 | `domain-and-inflation` | public | 5 | 1 | 2 | 2 | 4 | 4 | no |
 | `issuer-auth-required` | public | 3 | 1 | 1 | 1 | 2 | 2 | no |
+| `liquidity-pool-share` | public | 3 | 1 | 1 | 0 | 2 | 1 | no |
 | `multisig-custody` | public | 5 | 1 | 2 | 2 | 4 | 2 | no |
 | `null-home-domain` | public | 1 | 1 | 0 | 0 | 0 | 0 | no |
 | `sponsored-trustlines` | public | 17 | 1 | 10 | 6 | 16 | 15 | yes |
@@ -32,7 +33,7 @@ The validator counts total balances, not trustlines. The `many_balances` label b
 | `testnet-plain` | testnet | 1 | 1 | 0 | 0 | 0 | 0 | no |
 | `testnet-sponsored` | testnet | 2 | 1 | 1 | 0 | 1 | 1 | no |
 | `whitespace-home-domain` | public | 5 | 1 | 3 | 1 | 4 | 4 | no |
-| **All fourteen** | | **96** | **14** | **59** | **23** | **82** | | **3 of 14** |
+| **All fifteen** | | **99** | **15** | **60** | **23** | **84** | | **3 of 15** |
 
 "Distinct issuers" counts different `asset_issuer` values among the trustlines of one account. It is lower than the trustline count when one issuer supplies more than one asset, as in `multisig-custody` where four trustlines come from two issuers. `asset-heavy-exchange` holds 36 trustlines from 35 issuers.
 
@@ -40,20 +41,21 @@ Counts are taken directly from the `balances` arrays in `fixtures/<id>/account.j
 
 ## 3. Asset types
 
-Exactly three `asset_type` values appear across the 96 balance entries:
+Four `asset_type` values appear across the 99 balance entries:
 
 | `asset_type` | Meaning | Entries | Carries `asset_code`, `asset_issuer`, `limit` |
 |---|---|---|---|
-| `native` | the lumen balance | 14 | no |
-| `credit_alphanum4` | an issued asset whose code is 1 to 4 characters | 59 | yes |
+| `native` | the lumen balance | 15 | no |
+| `credit_alphanum4` | an issued asset whose code is 1 to 4 characters | 60 | yes |
 | `credit_alphanum12` | an issued asset whose code is 5 to 12 characters | 23 | yes |
+| `liquidity_pool_shares` | a share of a constant-product pool, named by `liquidity_pool_id` instead of a code and issuer | 1 | no |
 
 Reading notes:
 
 - A native entry has only `asset_type`, `balance`, `buying_liabilities` and `selling_liabilities`. Code that reads `asset_code` or `asset_issuer` without checking `asset_type` first will meet a missing key on the native entry.
 - An issued entry additionally carries `asset_code`, `asset_issuer`, `limit`, `is_authorized`, `is_authorized_to_maintain_liabilities` and `last_modified_ledger`.
 - Amounts such as `balance` and `limit` are decimal strings with seven fractional digits. They are not numbers, and a parser should not convert them to floating point.
-- Horizon can also return `liquidity_pool_shares` entries for pool trustlines. None of the twelve fixtures contains one, so this corpus says nothing about their shape. If a future capture contains an `asset_type` outside the three above, check Horizon's documentation for the account resource before documenting it here.
+- A `liquidity_pool_shares` entry names its pool with `liquidity_pool_id` and carries a `limit`, but no `asset_code` or `asset_issuer`, as `liquidity-pool-share` shows. If a future capture contains an `asset_type` outside the four above, check Horizon's documentation for the account resource before documenting it here.
 
 ## 4. The `many_balances` boundary
 

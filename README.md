@@ -91,8 +91,8 @@ seed-shaped string (`S...`) is refused by both the capture tool and the validato
 <!-- METRICS:START -->
 | Indicator | Value | Source |
 |---|---|---|
-| Verified Captures | **14 accounts** (11 Mainnet, 3 Test) | `fixtures/` |
-| Test Suite | **400 passing** | `python -m unittest` |
+| Verified Captures | **15 accounts** (12 Mainnet, 3 Test) | `fixtures/` |
+| Test Suite | **403 passing** | `python -m unittest` |
 | Integrity Assurance | **SHA-256 sidecars verified** | `validate.py` |
 | Safety Invariant | **Zero secret keys (`S...`)** | Validator enforced |
 <!-- METRICS:END -->
@@ -111,6 +111,7 @@ A cryptographic specimen vault and ledger matrix is published at **[https://post
 | `default-plain` | one signer which is the master key at weight 1, all thresholds zero and no optional fields, the account a rule has to leave alone |
 | `domain-and-inflation` | home_domain lobstr.co with an inflation destination and two sponsorships, a well-formed SEP-1 candidate |
 | `issuer-auth-required` | an issuer account with auth_required set, two signers at weight 1 and 150 sponsored entries |
+| `liquidity-pool-share` | one liquidity pool share balance alongside native and credit_alphanum4 assets, exercising liquidity_pool_id in consumer parsers |
 | `multisig-custody` | two signers, master weight 2 and nonzero thresholds, the shape a shared custody account leaves on chain |
 | `null-home-domain` | synthetic: explicit null home domain to test parser null-handling defenses |
 | `sponsored-trustlines` | num_sponsored 17 against num_sponsoring 0: seventeen balances and two signers, the account whose own entries are paid for by someone else, which no earlier capture showed |

@@ -1,10 +1,10 @@
 # Fixtures index
 
-> A one-page map of the fourteen fixtures (thirteen captures and one synthetic account), so a consumer can choose a fixture without opening twenty-eight files.
+> A one-page map of the fifteen fixtures (fourteen captures and one synthetic account), so a consumer can choose a fixture without opening twenty-eight files.
 
 Each directory below holds exactly two files: `account.json` (the Horizon response, verbatim) and `fixture.toml` (the sidecar that says where the bytes came from). The layout rules are in [SCHEMA.md](../SCHEMA.md) section 1, and this index is a reading aid, not a second source of truth: when it disagrees with a sidecar, the sidecar and `python3 validate.py --report` are right.
 
-## 1. The fourteen fixtures
+## 1. The fifteen fixtures
 
 | Directory | Network | Ledger | Shape labels | Why it is here |
 |---|---|---|---|---|
@@ -13,6 +13,7 @@ Each directory below holds exactly two files: `account.json` (the Horizon respon
 | [`default-plain`](default-plain/) | public | 65266813 | `master_is_signer`, `no_data`, `no_home_domain`, `no_inflation`, `not_sponsored`, `not_sponsoring`, `single_signer`, `thresholds_zero` | the plain account a rule has to leave alone |
 | [`domain-and-inflation`](domain-and-inflation/) | public | 65266813 | `has_home_domain`, `has_inflation`, `master_is_signer`, `no_data`, `not_sponsored`, `single_signer`, `sponsoring`, `thresholds_zero` | a home domain with an inflation destination, a well-formed SEP-1 candidate |
 | [`issuer-auth-required`](issuer-auth-required/) | public | 65266862 | `auth_required`, `master_is_signer`, `multi_signer`, `no_data`, `no_home_domain`, `no_inflation`, `not_sponsored`, `sponsoring`, `thresholds_nonzero` | an issuer with `auth_required` set and two signers |
+| [`liquidity-pool-share`](liquidity-pool-share/) | public | 63378367 | `has_home_domain`, `master_is_signer`, `no_data`, `no_inflation`, `not_sponsored`, `not_sponsoring`, `single_signer`, `thresholds_zero` | one liquidity pool share beside native and `credit_alphanum4`, for consumers that must read `liquidity_pool_id` |
 | [`multisig-custody`](multisig-custody/) | public | 65266865 | `has_inflation`, `master_is_signer`, `multi_signer`, `no_data`, `no_home_domain`, `not_sponsored`, `not_sponsoring`, `thresholds_nonzero` | two signers with stepped thresholds, the shape a shared custody account leaves on chain |
 | [`null-home-domain`](null-home-domain/) | public | none | `master_is_signer`, `no_data`, `no_home_domain`, `no_inflation`, `not_sponsored`, `not_sponsoring`, `single_signer`, `thresholds_zero` | the one synthetic fixture: a home domain that is an explicit null, for parsers that must not fail on it |
 | [`sponsored-trustlines`](sponsored-trustlines/) | public | 65110665 | `has_home_domain`, `many_balances`, `master_is_signer`, `multi_signer`, `no_data`, `no_inflation`, `not_sponsoring`, `sponsored`, `thresholds_nonzero` | an account whose own entries are paid for by someone else |
@@ -23,7 +24,7 @@ Each directory below holds exactly two files: `account.json` (the Horizon respon
 | [`testnet-sponsored`](testnet-sponsored/) | testnet | 5884375 | `master_is_signer`, `no_data`, `no_home_domain`, `no_inflation`, `not_sponsoring`, `single_signer`, `sponsored`, `thresholds_zero` | a testnet account whose entries are paid for by someone else |
 | [`whitespace-home-domain`](whitespace-home-domain/) | public | 65266813 | `blank_home_domain`, `has_inflation`, `master_is_signer`, `no_data`, `not_sponsored`, `single_signer`, `sponsoring`, `thresholds_zero` | a home domain that is a single space, which a tool that trims before validating reads as absent |
 
-Eleven fixtures are on the public network (ten captures and the synthetic one) and three are on testnet. Ledger is the sidecar `ledger` value, which `validate.py` requires to be at least the account's `last_modified_ledger`. The synthetic fixture has none, because nothing was read from a ledger. Three captures (`default-plain`, `domain-and-inflation` and `whitespace-home-domain`) record the same ledger, 65266813.
+Twelve fixtures are on the public network (eleven captures and the synthetic one) and three are on testnet. Ledger is the sidecar `ledger` value, which `validate.py` requires to be at least the account's `last_modified_ledger`. The synthetic fixture has none, because nothing was read from a ledger. Three captures (`default-plain`, `domain-and-inflation` and `whitespace-home-domain`) record the same ledger, 65266813.
 
 ## 2. Reading the shape labels
 

@@ -6,7 +6,7 @@
 
 Every `account.json` begins with a `_links` object. It is the hypermedia block Horizon adds to an account resource: for each related resource it gives a URL, so a client can move from the account to its transactions, operations, offers and so on without building URLs itself.
 
-All thirteen captures carry the same eight relations. The fourteenth fixture, `null-home-domain`, is synthetic: it has no `source_url`, and its `account.json` has no `_links` at all, so nothing in this document applies to it.
+All fourteen captures carry the same eight relations. The fifteenth fixture, `null-home-domain`, is synthetic: it has no `source_url`, and its `account.json` has no `_links` at all, so nothing in this document applies to it.
 
 | Relation | `href` pattern (after the base URL) | Templated |
 |---|---|---|
@@ -21,7 +21,7 @@ All thirteen captures carry the same eight relations. The fourteenth fixture, `n
 
 A templated `href` is a URI template, not a URL: `{key}` and `{?cursor,limit,order}` have to be expanded by the client before the link can be requested.
 
-With the host and the account id replaced by placeholders, the `_links` of all thirteen captured files are identical. The only things that differ between fixtures are the Horizon host and the account id that Horizon filled in. Every `href` in a fixture also begins with the same host as that fixture's `source_url`.
+With the host and the account id replaced by placeholders, the `_links` of all fourteen captured files are identical. The only things that differ between fixtures are the Horizon host and the account id that Horizon filled in. Every `href` in a fixture also begins with the same host as that fixture's `source_url`.
 
 ## 2. What it does not prove
 
