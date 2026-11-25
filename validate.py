@@ -27,6 +27,10 @@ from pathlib import Path
 
 SCHEMA_VERSION = 1
 SCENARIO_MAX = 200
+SCENARIO_COUNT_PROBLEM = "scenario must not contain numeric counts; describe intent in plain words"
+# A count is a bare digit group. A digit glued to a word or to a hyphen is part of a
+# name (SEP-1, SHA-256, G...), not a quantity, so it is not a count.
+COUNT_PATTERN = re.compile(r"(?<![\w-])\d+(?![\w-])")
 BASE_KEYS = {
     "schema_version",
     "id",
@@ -159,6 +163,8 @@ def scenario_error(scenario: object) -> str | None:
         return f"scenario must be at most {SCENARIO_MAX} characters"
     if not scenario.isprintable():
         return "scenario must be a single printable line with no control characters"
+    if COUNT_PATTERN.search(scenario):
+        return SCENARIO_COUNT_PROBLEM
     return None
 
 

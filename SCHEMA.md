@@ -78,7 +78,7 @@ Captured fixture example:
 schema_version = 1
 id = "default-plain"
 kind = "captured"
-scenario = "one signer which is the master key at weight 1, all thresholds zero and no optional fields, the account a rule has to leave alone"
+scenario = "one signer which is the master key at weight one, all thresholds zero and no optional fields, the account a rule has to leave alone"
 account_id = "GA7DTK7GPOEQGXHI7MLA2OAIEL4365VG6PXUAVREMDVLC4MJIJ62KR75"
 network = "public"
 shape = [
