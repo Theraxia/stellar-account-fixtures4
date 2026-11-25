@@ -1,6 +1,6 @@
 # ROADMAP: Stellar account fixtures
 
-Last updated: 2026-11-25 09:18 UTC
+Last updated: 2026-11-25 09:28 UTC
 
 A corpus of public Stellar account reads, their provenance, and the validator that keeps
 the provenance honest. Nothing here is a claim about whether an account is well
@@ -36,9 +36,9 @@ empty gap list is gate G2.
 |---|---|---|---|---|
 | 0 | Ground truth | 5 | 6 | 83% |
 | 1 | Repository wrapper | 10 | 10 | 100% |
-| 2 | Coverage | 36 | 39 | 92% |
+| 2 | Coverage | 37 | 40 | 92% |
 | 3 | Consumer contract | 3 | 4 | 75% |
-| **All phases** | **Readiness total** | **54** | **59** | **92%** |
+| **All phases** | **Readiness total** | **55** | **60** | **92%** |
 | Gates | G1 to G5 | 2 | 5 | 40% |
 <!-- PROGRESS:END -->
 
@@ -167,6 +167,7 @@ python3 scripts/roadmap_progress.py --check ROADMAP.md
 =======
 - [x] **2.39** Prevent `scripts/sync_readme.py` from publishing fallback test counts when test discovery fails. M. Deps: none. Done when: import and discovery errors fail `--check` before README or badge files are changed, with regression tests in `tests/test_readme_test_count_fallback.py`. **Issue:** #102.
 >>>>>>> origin/main
+- [x] **2.43** Pin the programmatic `validate()` contract for a missing fixtures directory in `tests/test_validate_missing_fixtures.py`. S. Deps: 1.3. Done when: a temporary root with no `fixtures/` returns one structured problem ending in `fixtures: no fixtures directory`, report mode returns an empty report, no exception escapes, and a file occupying that name is refused the same way. **Issue:** #67. (done 2026-11-25 09:28: three cases in `tests/test_validate_missing_fixtures.py` cover an absent directory, report mode and a file named `fixtures`; `validate.py` and its CLI guard are unchanged.)
 
 ### Phase 3: Consumer contract
 
@@ -190,6 +191,7 @@ python3 scripts/roadmap_progress.py --check ROADMAP.md
 
 | When | What | Tasks |
 |---|---|---|
+| 2026-11-25 09:28 | Task 2.43 (closing #67) pins the branch of `validate()` that the CLI's own guard hides: a temporary root with no `fixtures/` returns one structured problem ending in `fixtures: no fixtures directory`, report mode returns an empty report, no exception escapes, and a file occupying that name is refused the same way. `validate.py`, its messages and its exit codes were not touched. README metrics and badge data were regenerated for the three added cases. Verified locally: `python3 validate.py`, both unittest suites, `ruff check .`, `ruff format --check .`, `mypy`, `roadmap_progress.py --check` and `sync_readme.py --check` all exit 0. | 2.43 |
 | 2026-11-24 06:57 | Tasks 2.39 to 2.42 (closing #59, #60, #61, #62; numbered after main's 2.27 to 2.38): capture unnormalized home domain in fixtures/unnormalized-home-domain (#59), add plain testnet baseline in fixtures/testnet-plain (#60), compile ledger age table in corpus/ledger-ages.md (#61), and pin validator CLI exit codes in tests/test_validate_exit_codes.py (#62). | 2.39, 2.40, 2.41, 2.42 |
 | 2026-11-23 17:31 | Four validator suites and one rule (closing #79, #82, #83, #85): the nested-directory blind spot is pinned in both directions, duplicate `fixture.toml` keys are shown to arrive as `sidecar is not valid TOML` rather than a traceback, `check_captured` now refuses a sidecar ledger below the account's `last_modified_ledger` and the nine shipped fixtures still pass, and the CLI's stdout/stderr/exit split is driven as a subprocess over success, report, problem and unreadable-root corpora. | 2.31, 2.32, 2.33, 2.34 |
 | 2026-11-23 17:18 | Two suites pinned rather than described (pull request #146): `tests/test_validate_duplicate_json_keys.py` records that `json.loads` keeps the last of two duplicate `home_domain` keys in `account.json`, that shape derivation reads that surviving value, and that `validate.py` still hashes the original bytes, so the behaviour is pinned without claiming key uniqueness is enforced; `tests/test_validate_corpus_identity.py` audits all nine shipped captures, tying each `fixture.toml` id to its directory, its network to the root document for that network, and its `account_id` to the bytes beside it. No validator, tool or fixture changed and no task is ticked. | none ticked |
